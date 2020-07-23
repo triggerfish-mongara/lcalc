@@ -23,11 +23,12 @@ Lcalc > 0xffff_ffff * 0xffff_ffff * 0xffff_ffff
 ```
 
 # Features
-* Always display the result in three base nubmers - dec, hex, and bin
+* Always display the result in three base numbers - dec, hex, and bin
 * No limit for numbers of digits
 * Accept input numbers in dec, hex and bin
-* Can separate the input number with '\_' at any position. eg. 0x2_ff3_4430
+* Can separate the input number with '\_' at any position. e.g. 0x2_ff3_4430
 * Automatically convert the result to 2's complement for hex and bin expressions if it is negative
+* If the result has fraction (by such a operator like >>), it will be rounded down for hex and bin expressions
 * Command history available
 
 # Requirement

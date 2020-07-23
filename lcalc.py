@@ -45,7 +45,11 @@ def printInBin(val):
 
 def main():
     while True:
-        inp=input("Calc > ")
+        try:
+            inp=input("Lcalc > ")
+        except:
+            print()
+            exit()
         try:
             res=eval(inp)
         except:
