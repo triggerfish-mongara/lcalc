@@ -56,7 +56,7 @@ def main():
             print ("Wrong input") 
             continue
 
-        if not isinstance(res, int):
+        if not isinstance(res, (int, float)):
             print ("Wrong input") 
             continue
             
