@@ -1,10 +1,20 @@
 #!/usr/bin/env python3
 
 import readline
+import re
 
-def printInHex(val):
+def insert_underscores(in_str):
     """
-    Print argument in hexdecimal, separating by '_' each 4 chars. Value is transformed to 2's complement.
+    Return the argument separating with '_' on each 4 characters form the head
+    """
+    new_str = ""
+    for i in range(0, len(in_str), 4):
+        new_str = new_str + in_str[i:i + 4] + ('_' if i != len(in_str) - 4 else '')
+    return new_str
+
+def to_hex(val):
+    """
+    Receive int and return a string in hexadecimal. Padded by 32 bits considering 2's complement for negative values
     """
     COMMON_DIGITS = 8
     val_str = "{:x}".format(val) # Count '-' in negative case
@@ -14,16 +24,11 @@ def printInHex(val):
         final_val_str = "{:x}".format(val_2_complement)
     else:
         final_val_str = "0" * (padded_len - len(val_str)) + val_str
-    f_hex_res=[]
-    for idx, c in enumerate(reversed(final_val_str)):
-        if idx != 0 and idx % 4 == 0:
-            f_hex_res.insert(0, '_')
-        f_hex_res.insert(0, c)
-    print("(HEX) " + ''.join(f_hex_res))
+    return(final_val_str)
 
-def printInBin(val):
+def to_bin(val):
     """
-    Print argument in binary, speparating by '_' each 4 chars. Value is transformed to 2's complement
+    Receive int and return a string in binary. Padded by 32 bits considering 2's complement for negative values
     """
     COMMON_DIGITS = 32
     val_str = "{:b}".format(val) # Count '-' in negative case
@@ -33,15 +38,16 @@ def printInBin(val):
         final_val_str = "{:b}".format(val_2_complement)
     else:
         final_val_str = "0" * (padded_len - len(val_str)) + val_str
-    f_bin_res=[]
-    for idx, c in enumerate(reversed(final_val_str)):
-        if idx != 0:
-            if idx % 32 == 0:
-                f_bin_res.insert(0, '\n      ')
-            elif idx != 0 and idx % 4 == 0:
-                f_bin_res.insert(0, '_')
-        f_bin_res.insert(0, c)
-    print("(BIN) " + ''.join(f_bin_res))
+    return(final_val_str)
+
+def print_bin(header_text, body_text):
+    CHARS_IN_A_CHUNK = 32 + 8 # 32digits and 8 underscores 
+    for i in range(0, len(body_text), CHARS_IN_A_CHUNK):
+        if (i == 0):
+            print_header = header_text
+        else:
+            print_header = " " * len(header_text)
+        print(print_header, body_text[i:i + CHARS_IN_A_CHUNK - 1])
 
 def main():
     while True:
@@ -61,8 +67,8 @@ def main():
             continue
             
         print("(DEC) {:,}".format(res))
-        printInHex(int(res))
-        printInBin(int(res))
+        print("(HEX)", insert_underscores(to_hex(int(res))))
+        print_bin("(BIN)", insert_underscores(to_bin(int(res))))
 
 main()
 
